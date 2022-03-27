@@ -1,0 +1,3 @@
+C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/Service_1.dir
+C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
