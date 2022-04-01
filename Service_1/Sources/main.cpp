@@ -5,12 +5,15 @@
 using namespace std;
 
 void requestCollector();
+void requestSender();
 void responder();
 
 int main()
 {
     thread t1(requestCollector);
+    thread t2(requestSender);
     t1.join();
+    t2.join();
     cout << "Hello krokodil!" << endl;
     return 0;
 }
@@ -31,7 +34,30 @@ void requestCollector(){
         //parse
         string stringmsg = string((char*) msg->data(), msg->size());
         stringmsg.erase(0, topicName.size());
-        cout << stringmsg << endl;
+        cout << "received " << stringmsg << endl;
+    }
+
+}
+
+void requestSender(){
+
+    //connection setup
+    zmq::context_t context(1);
+    zmq::socket_t pusher( context, ZMQ_PUSH);
+    pusher.connect("tcp://benternet.pxl-ea-ict.be:24041");
+
+    while(1)
+    {
+        try {
+            std::string message_tosend;
+            std::cin >> message_tosend;
+            message_tosend.insert(0, "service>bram>test>");
+            pusher.send(message_tosend.c_str(), message_tosend.size());
+            std::cout << "Pushed : " << message_tosend << std::endl;
+        }
+        catch(zmq::error_t& e) {
+            std::cout << e.what() << std::endl;
+        }
     }
 
 }
