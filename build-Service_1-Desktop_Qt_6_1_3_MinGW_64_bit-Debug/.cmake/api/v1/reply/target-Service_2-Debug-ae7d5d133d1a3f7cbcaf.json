@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Service_1.exe"
+			"path" : "Service_2.exe"
 		},
 		{
-			"path" : "Service_1.pdb"
+			"path" : "Service_2.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -83,11 +83,11 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "C:/Github_Clones/EAI2_Network_Programming/Service_1/Sources"
+					"path" : "C:/Github_Clones/EAI2_Network_Programming/Service_2/Sources"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "C:/Github_Clones/EAI2_Network_Programming/Service_1/Sources/ZeroMQ/include"
+					"path" : "C:/Github_Clones/EAI2_Network_Programming/Service_2/Sources/ZeroMQ/include"
 				}
 			],
 			"language" : "CXX",
@@ -105,7 +105,7 @@
 			]
 		}
 	],
-	"id" : "Service_1::@6890427a1f51a3e7e1df",
+	"id" : "Service_2::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -120,7 +120,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-LC:\\Github_Clones\\EAI2_Network_Programming\\Service_1\\Sources\\ZeroMQ\\lib",
+				"fragment" : "-LC:\\Github_Clones\\EAI2_Network_Programming\\Service_2\\Sources\\ZeroMQ\\lib",
 				"role" : "libraryPath"
 			},
 			{
@@ -153,8 +153,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Service_1",
-	"nameOnDisk" : "Service_1.exe",
+	"name" : "Service_2",
+	"nameOnDisk" : "Service_2.exe",
 	"paths" : 
 	{
 		"build" : ".",

@@ -4,42 +4,38 @@
 
 using namespace std;
 
-void *requestCollector( void *arg );
+
 void *requestSender( void *arg );
-void responder();
 
 int main()
 {
-    pthread_t thread1;
-    pthread_t thread2;
-    pthread_create(&thread1, NULL, requestCollector, NULL);
+    FILE * fp;
+    fp = fopen("war_criminal.png", "rb");
+    std::cout << fp->_base << endl;
+    std::cout << fp->_bufsiz << endl;
+    std::cout << fp->_charbuf << endl;
+    std::cout << fp->_cnt << endl;
+    std::cout << fp->_file << endl;
+    std::cout << fp->_flag << endl;
+    std::cout << fp->_ptr << endl;
+    std::cout << fp->_tmpfname << endl;
+
+
+
+
+
+
+
+
+
+    /*pthread_t thread2;
     pthread_create(&thread2, NULL, requestSender, NULL);
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
+    pthread_join(thread2, NULL);*/
     cout << "Hello krokodil!" << endl;
     return 0;
 }
 
-void *requestCollector(void *arg){
 
-    //connection setup
-    zmq::context_t context(1);
-    zmq::socket_t netScanner( context, ZMQ_SUB);
-    netScanner.connect("tcp://benternet.pxl-ea-ict.be:24042");
-    string topicName = "";
-    netScanner.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
-
-    zmq::message_t * msg = new zmq::message_t();
-    while(1)
-    {
-        netScanner.recv(msg);
-        //parse
-        string stringmsg = string((char*) msg->data(), msg->size());
-        stringmsg.erase(0, topicName.size());
-        cout << "received " << stringmsg << endl;
-    }
-
-}
 
 void *requestSender(void *arg){
 

@@ -491,7 +491,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Github_Clones/EAI2_Network_Programming/Service_1"
+			"value" : "C:/Github_Clones/EAI2_Network_Programming/Service_2"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/Service_1"
+			"value" : "C:/Program Files (x86)/Service_2"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -747,7 +747,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "Service_1"
+			"value" : "Service_2"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1150,7 +1150,7 @@
 			"value" : "C:/Qt/6.1.3/mingw81_64/bin/qmake.exe"
 		},
 		{
-			"name" : "Service_1_BINARY_DIR",
+			"name" : "Service_2_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1162,7 +1162,7 @@
 			"value" : "C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug"
 		},
 		{
-			"name" : "Service_1_IS_TOP_LEVEL",
+			"name" : "Service_2_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1174,7 +1174,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "Service_1_SOURCE_DIR",
+			"name" : "Service_2_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1183,43 +1183,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Github_Clones/EAI2_Network_Programming/Service_1"
-		},
-		{
-			"name" : "test_broker_interaction_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug"
-		},
-		{
-			"name" : "test_broker_interaction_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "test_broker_interaction_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "C:/Github_Clones/EAI2_Network_Programming/Service_1"
+			"value" : "C:/Github_Clones/EAI2_Network_Programming/Service_2"
 		}
 	],
 	"kind" : "cache",
