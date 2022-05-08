@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(
         Sources/
+        Resources/
         Sources/ZeroMQ/include/
 )
 
@@ -19,6 +20,7 @@ link_directories(
 set(project_headers
 
 )
+
 
 set(project_sources
         Sources/main.cpp
