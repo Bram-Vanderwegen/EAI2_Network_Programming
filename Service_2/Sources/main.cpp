@@ -7,49 +7,52 @@ using namespace std;
 
 
 void *requestSender( void *arg );
+void* requestReceiver(void* arg);
 
 int main()
 {
-    /*ifstream fp;
-    fp.open("war_criminal.bmp", ifstream::binary);
-    if(fp.is_open()){
-            cout << "open" << endl;
-            // checks for length
-            fp.seekg (0, fp.end);
-            int length = fp.tellg();
-            fp.seekg (0, fp.beg);
-            //copys
-            char * buffer = new char[length];
-            fp.read ((char*) &buffer[0] ,length);
-
-            //write data
-            ofstream fpw;
-            fpw.open("copy.bmp", ofstream::binary);
-            if(fpw.is_open()){
-                cout << "open" << endl;
-                for(int i = 0; i < length; i++){
-                    fpw << buffer[i];
-                }
-            }
-            else{
-                cout << "not open" << endl;
-            }
-            delete[] buffer;
-    }*/
 
 
 
 
 
+    pthread_t thread1;
     pthread_t thread2;
+    pthread_create(&thread1, NULL, requestReceiver, NULL);
     pthread_create(&thread2, NULL, requestSender, NULL);
+    pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
 
     cout << "Hello krokodil!" << endl;
     return 0;
 }
 
+void* requestReceiver(void* arg){
+    //connection setup
+    zmq::context_t context(1);
+    zmq::socket_t receiver( context, ZMQ_SUB);
 
+    receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
+    string topicName = "bram>image";
+    receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
+
+    zmq::message_t* datapayload = new zmq::message_t;
+    while(1){
+        receiver.recv(datapayload);
+        string limited = string((char*) datapayload->data(), datapayload->size());
+        limited.erase(0, topicName.size() + 1);
+
+
+        ofstream filerReceiveptr;
+        filerReceiveptr.open("received.bmp", ofstream::binary);
+        if(filerReceiveptr.is_open()){
+            for(int i = 0; i < datapayload->size(); i++){
+                filerReceiveptr.put(limited[i]);
+            }
+            cout << "writtend" << endl;
+        }
+    }
+}
 
 void *requestSender(void *arg){
 
@@ -81,7 +84,7 @@ void *requestSender(void *arg){
                     //add delim
 
                     string message = "bram>image>";
-                    for(int i = 0; i < 100; i++){
+                    for(int i = 0; i < length; i++){
                         message.push_back(buffer[i]);
                     }
 
@@ -101,3 +104,32 @@ void *requestSender(void *arg){
     }
 
 }
+
+//old backlog code
+
+/*ifstream fp;
+fp.open("war_criminal.bmp", ifstream::binary);
+if(fp.is_open()){
+        cout << "open" << endl;
+        // checks for length
+        fp.seekg (0, fp.end);
+        int length = fp.tellg();
+        fp.seekg (0, fp.beg);
+        //copys
+        char * buffer = new char[length];
+        fp.read ((char*) &buffer[0] ,length);
+
+        //write data
+        ofstream fpw;
+        fpw.open("copy.bmp", ofstream::binary);
+        if(fpw.is_open()){
+            cout << "open" << endl;
+            for(int i = 0; i < length; i++){
+                fpw << buffer[i];
+            }
+        }
+        else{
+            cout << "not open" << endl;
+        }
+        delete[] buffer;
+}*/
