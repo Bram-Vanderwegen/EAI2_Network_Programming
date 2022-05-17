@@ -7,6 +7,8 @@ add_compile_definitions(ZMQ_STATIC)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(Qt6 COMPONENTS Core REQUIRED)
+
 include_directories(
         Sources/
         Resources/
@@ -18,12 +20,13 @@ link_directories(
 )
 
 set(project_headers
-
+    Sources/color_extractor_service.h
 )
 
 
 set(project_sources
         Sources/main.cpp
+        Sources/color_extractor_service.cpp
 )
 
 set(ALL_LIBS
@@ -31,6 +34,7 @@ set(ALL_LIBS
         libzmq.a
         ws2_32
         iphlpapi
+        Qt6::Core
 )
 
 add_executable (${PROJECT_NAME} ${project_sources} ${project_headers})

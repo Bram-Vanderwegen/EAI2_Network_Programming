@@ -243,3 +243,67 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Qt/Tools/Ninja/ninja.exe cmTC_b29b6 && [1/2 12.5/sec] Building CXX object CMakeFiles/cmTC_b29b6.dir/CheckIncludeFile.cxx.obj
+[2/2 5.0/sec] Linking CXX executable cmTC_b29b6.exe
+
+
+
+Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Qt/Tools/Ninja/ninja.exe cmTC_2e447 && [1/2 14.2/sec] Building CXX object CMakeFiles/cmTC_2e447.dir/src.cxx.obj
+[2/2 11.0/sec] Linking CXX executable cmTC_2e447.exe
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Performing C++ SOURCE FILE Test HAVE_STDATOMIC succeeded with the following output:
+Change Dir: C:/Github_Clones/EAI2_Network_Programming/build-Service_1-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Qt/Tools/Ninja/ninja.exe cmTC_45a0c && [1/2 8.4/sec] Building CXX object CMakeFiles/cmTC_45a0c.dir/src.cxx.obj
+[2/2 8.6/sec] Linking CXX executable cmTC_45a0c.exe
+
+
+Source file was:
+#include <atomic>
+#include <cstdint>
+
+void test(volatile std::atomic<std::int64_t> &a)
+{
+    std::int64_t v = a.load(std::memory_order_acquire);
+    while (!a.compare_exchange_strong(v, v + 1,
+                                      std::memory_order_acq_rel,
+                                      std::memory_order_acquire)) {
+        v = a.exchange(v - 1);
+    }
+    a.store(v + 1, std::memory_order_release);
+}
+
+int main(int, char **)
+{
+    void *ptr = (void*)0xffffffc0; // any random pointer
+    test(*reinterpret_cast<std::atomic<std::int64_t> *>(ptr));
+    return 0;
+}

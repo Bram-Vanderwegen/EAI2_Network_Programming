@@ -51,7 +51,7 @@ void *requestSender(void *arg){
                     fp.read ((char*) &buffer[0] ,length);
 
                     //add delim
-                    string message = "bram>imageedit>";
+                    string message = "bram>imageeditC>";
                     message.append(message_tosend);
                     message.append(">");
                     //add data
@@ -80,7 +80,7 @@ void* requestReceiver(void* arg){
     zmq::socket_t receiver( context, ZMQ_SUB);
 
     receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
-    string topicName = "bram>imageedit>";
+    string topicName = "bram>imageeditS>";
     receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
 
     zmq::message_t* datapayload = new zmq::message_t;
@@ -88,12 +88,12 @@ void* requestReceiver(void* arg){
         receiver.recv(datapayload);
         string limited = string((char*) datapayload->data(), datapayload->size());
         limited.erase(0, topicName.size());
-
+        string filename = limited.substr(0, limited.find_first_of('>'));
 
         ofstream filerReceiveptr;
-        filerReceiveptr.open("received.bmp", ofstream::binary);
+        filerReceiveptr.open(filename, ofstream::binary);
         if(filerReceiveptr.is_open()){
-            for(int i = 0; i < datapayload->size(); i++){
+            for(int i = limited.find_first_of('>') + 1; i < datapayload->size(); i++){
                 filerReceiveptr.put(limited[i]);
             }
             cout << "writtend" << endl;

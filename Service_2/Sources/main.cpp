@@ -1,135 +1,48 @@
 #include <iostream>
 #include <pthread.h>
+#include <vector>
 #include <zmq.hpp>
 #include <fstream>
+#include <QProcess>
+
+#include <color_extractor_service.h>
 
 using namespace std;
 
-
-void *requestSender( void *arg );
-void* requestReceiver(void* arg);
+void* color_extractor_function(void *arg);
 
 int main()
 {
-
-
-
-
-
-    pthread_t thread1;
-    pthread_t thread2;
-    pthread_create(&thread1, NULL, requestReceiver, NULL);
-    pthread_create(&thread2, NULL, requestSender, NULL);
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
+    pthread_t color_handle;
+    pthread_create(&color_handle, NULL, *color_extractor_function, NULL);
+    pthread_join(color_handle, NULL);
 
     cout << "Hello krokodil!" << endl;
     return 0;
 }
 
-void* requestReceiver(void* arg){
-    //connection setup
+void* color_extractor_function(void *arg){
+
+    //socket setup
     zmq::context_t context(1);
     zmq::socket_t receiver( context, ZMQ_SUB);
-
+    //make connection
     receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
-    string topicName = "bram>image";
+    string topicName = "bram>imageeditC";
     receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
 
+    //loop receiving
     zmq::message_t* datapayload = new zmq::message_t;
+    Color_extractor_service* current_service;
     while(1){
+        //receive file
         receiver.recv(datapayload);
-        string limited = string((char*) datapayload->data(), datapayload->size());
-        limited.erase(0, topicName.size() + 1);
-
-
-        ofstream filerReceiveptr;
-        filerReceiveptr.open("received.bmp", ofstream::binary);
-        if(filerReceiveptr.is_open()){
-            for(int i = 0; i < datapayload->size(); i++){
-                filerReceiveptr.put(limited[i]);
-            }
-            cout << "writtend" << endl;
-        }
+        current_service = new Color_extractor_service(datapayload->to_string(), datapayload->size(), topicName);
+        delete current_service;
     }
 }
 
-void *requestSender(void *arg){
-
-    //connection setup
-    zmq::context_t context(1);
-    zmq::socket_t pusher( context, ZMQ_PUSH);
-    pusher.connect("tcp://benternet.pxl-ea-ict.be:24041");
 
 
 
-    while(1)
-    {
-        try {
-            std::string message_tosend;
-            std::cin >> message_tosend;
 
-            ifstream fp;
-            fp.open(message_tosend, ifstream::binary);
-            if(fp.is_open()){
-                    cout << "open" << endl;
-                    // checks for length
-                    fp.seekg (0, fp.end);
-                    int length = fp.tellg();
-                    fp.seekg (0, fp.beg);
-                    //copys
-                    char * buffer = new char[length];
-                    fp.read ((char*) &buffer[0] ,length);
-
-                    //add delim
-
-                    string message = "bram>image>";
-                    for(int i = 0; i < length; i++){
-                        message.push_back(buffer[i]);
-                    }
-
-
-                    message_tosend.insert(0, "");
-                    pusher.send(message.c_str(), message.length());
-                    std::cout << "Pushed : " << message_tosend << std::endl;
-                    delete [] buffer;
-            }
-            else{
-                cout << "try again" << endl;
-            }
-        }
-        catch(zmq::error_t& e) {
-            std::cout << e.what() << std::endl;
-        }
-    }
-
-}
-
-//old backlog code
-
-/*ifstream fp;
-fp.open("war_criminal.bmp", ifstream::binary);
-if(fp.is_open()){
-        cout << "open" << endl;
-        // checks for length
-        fp.seekg (0, fp.end);
-        int length = fp.tellg();
-        fp.seekg (0, fp.beg);
-        //copys
-        char * buffer = new char[length];
-        fp.read ((char*) &buffer[0] ,length);
-
-        //write data
-        ofstream fpw;
-        fpw.open("copy.bmp", ofstream::binary);
-        if(fpw.is_open()){
-            cout << "open" << endl;
-            for(int i = 0; i < length; i++){
-                fpw << buffer[i];
-            }
-        }
-        else{
-            cout << "not open" << endl;
-        }
-        delete[] buffer;
-}*/
