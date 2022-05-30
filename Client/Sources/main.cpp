@@ -12,6 +12,7 @@ void* requestSender( void *arg );
 void* requestReceiver(void* arg);
 
 void* ping_sender(void* arg);
+void* help_function(void* arg);
 
 string* create_randnum();
 
@@ -34,7 +35,7 @@ void *requestSender(void *arg){
     zmq::context_t context(1);
     zmq::socket_t pusher( context, ZMQ_PUSH);
     pusher.connect("tcp://benternet.pxl-ea-ict.be:24041");
-
+    cout << "typ 'help' voor info" << endl;
     while(1)
     {
         try {
@@ -43,6 +44,10 @@ void *requestSender(void *arg){
             std::cin >> filename;
             if(filename == string("ping")){
                 pthread_create(NULL, NULL, &ping_sender, NULL);
+                continue;
+            }
+            else if(filename == string("help")){
+                help_function(NULL);
                 continue;
             }
             //open and read file
@@ -144,6 +149,25 @@ void* ping_sender(void* arg){
     receiver.recv(void_mess);
     cout << "pong" << endl;
     delete void_mess;
+}
+
+void* help_function(void* arg){
+    cout << "###############" << endl;
+    cout << "# Handleiding #" << endl;
+    cout << "###############" << endl << endl;;
+    cout << "-------------------" << endl;
+    cout << "- Kleurensplitser -" << endl;
+    cout << "-------------------" << endl;
+    cout << "Om de kleurenservice te gebruiken moet in dezelfde map als de executable een image in bitmap formaat gestoken worden." << endl;
+    cout << "Deze bitmap moet als resolutie een veelvoud van 4 hebben." << endl;
+    cout << "typ in de console de naam van de image met extensie." << endl;
+    cout << "De server zal vervolgens de 3 kleurenimages terugsturen." << endl;
+    cout << "(Dit kan even duren, afhankelijk van de grootte van de image." << endl << endl;
+    cout << "-------------" << endl;
+    cout << "- ping pong -" << endl;
+    cout << "-------------" << endl;
+    cout << "Voor de ping service te gebruiken moet er 'ping' worden ingetypt, waarna er pong wordt teruggestuurd." << endl << endl;
+    cout << "###############" << endl;
 }
 
 string* create_randnum(){
