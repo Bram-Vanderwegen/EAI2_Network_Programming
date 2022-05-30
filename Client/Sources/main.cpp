@@ -78,8 +78,7 @@ void *requestSender(void *arg){
                     pthread_create(NULL, NULL, requestReceiver, (void*) (id));
                     //push
                     pusher.send(message.c_str(), message.length());
-                    std::cout << "Pushed : " << filename << "to server." << std::endl;
-                    delete [] buffer;
+                    std::cout << "Pushed : " << filename << " to server." << std::endl;
 
             }
             else{
@@ -124,7 +123,10 @@ void* requestReceiver(void* arg){
             }
             cout << "wrote file: " << filename << endl;
         }
+
     }
+    delete datapayload;
+    delete (string*) arg;
 }
 
 void* ping_sender(void* arg){
@@ -149,6 +151,7 @@ void* ping_sender(void* arg){
     receiver.recv(void_mess);
     cout << "pong" << endl;
     delete void_mess;
+    delete id;
 }
 
 void* help_function(void* arg){

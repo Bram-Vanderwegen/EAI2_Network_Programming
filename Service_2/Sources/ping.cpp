@@ -18,8 +18,8 @@ void* ping::pingloop(void* arg)
     zmq::socket_t* sender;
     sender = new zmq::socket_t( context, ZMQ_PUSH);
     sender->connect("tcp://benternet.pxl-ea-ict.be:24041");
-    zmq::message_t * data;
     while(1){
+        zmq::message_t * data;
         data = new zmq::message_t;
         receiver->recv(data);
         string data_str = (char*) data->data();
@@ -29,5 +29,6 @@ void* ping::pingloop(void* arg)
         sendata.append(id);
         cout << sendata << endl;
         sender->send(sendata.c_str(), sendata.length());
+        delete data;
     }
 }
