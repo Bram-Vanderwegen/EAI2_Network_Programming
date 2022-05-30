@@ -5,6 +5,8 @@
   <p> Dit project heeft als doel meerdere alleenstaande services te hebben die samen tot een network kunnnen worden samengegoten.
   Het project draait vooral rond zmq sockets om de communicatie op te stellen.</p>
   
+  <p> voor hulp bij gebruik, typ 'help' in de client console </p>
+  
   ### Compilen
   
   <p> Het project moet met cmake gecompiled worden en heeft enkele extra libraries: de zmq library en de Qt6::core library. 
