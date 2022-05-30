@@ -7,26 +7,36 @@
 
 using namespace std;
 
+
 class Color_extractor_service
 {
 public:
-    Color_extractor_service(string payload_in, int payload_size_in, string topicName_in);
+    Color_extractor_service();
     ~Color_extractor_service();
+    //constant topic name
+    static string topicName;
+    //vector container
+    static vector<string> toPush;
+    //mutex and condition
+    static pthread_mutex_t pusher_mutex;
+    static pthread_mutex_t insertion_mutex;
+    static pthread_cond_t wake_pusher;
 
 private:
 
-    int write_file();
-    int send_file(int nr);
-    int split_file();
-    void make_filenames();
+    //main function call sequence
+    static void* main(void* arg);
 
-    string payload;
-    int payload_size;
-    string topicName;
+    //file edit functions
+    static int write_file(string limited, string* filename, int size);
+    static int split_file(string filename);
 
-    string filename;
-    vector<string>* subfilenames;
-    zmq::socket_t* pusher;
+    //helper functions
+    static void make_filenames();
+
+    //network funtions
+    static void* receiveloop(void* arg);
+    static void* send_loop(void* arg);
 };
 
 #endif // COLOR_EXTRACTOR_SERVICE_H

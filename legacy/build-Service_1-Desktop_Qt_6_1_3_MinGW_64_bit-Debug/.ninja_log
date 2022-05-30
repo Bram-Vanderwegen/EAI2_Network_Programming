@@ -1,0 +1,24 @@
+# ninja log v5
+5	2021	6756479139402805	CMakeFiles/Service_2.dir/Sources/main.cpp.obj	42d8f1ce3ebf14b1
+2021	2443	6756479143613958	Service_2.exe	ad746ce51e37b877
+513	731	6720655866470242	Service_1.exe	84a5328075690fc3
+1	125	6756483970475760	build.ninja	96884108f1869315
+16	1910	6756479138295420	CMakeFiles/Service_2.dir/Sources/weather_api.cpp.obj	7f231288fb6bc5e6
+14	1800	6756478809792678	CMakeFiles/Service_2.dir/Sources/color_extractor_service.cpp.obj	67200d4239630013
+767	1036	6696511927404681	test_broker_interaction.exe	94f83d50470d019d
+15	774	6756500952234610	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+4	1505	6756500959544213	CMakeFiles/Service_2.dir/Sources/main.cpp.obj	42d8f1ce3ebf14b1
+1505	1921	6756500963680782	Service_2.exe	c928ab319bedfc00
+4	676	6756502155570243	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+676	1067	6756502159460254	Service_2.exe	c928ab319bedfc00
+5	672	6756502722103170	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+672	1059	6756502725948993	Service_2.exe	c928ab319bedfc00
+4	686	6756505915309530	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+687	1089	6756505919320210	Service_2.exe	c928ab319bedfc00
+4	678	6756506131861494	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+678	1064	6756506135710145	Service_2.exe	c928ab319bedfc00
+14	717	6756508211262490	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+3	1459	6756508218680060	CMakeFiles/Service_2.dir/Sources/main.cpp.obj	42d8f1ce3ebf14b1
+1459	1841	6756508222490844	Service_2.exe	c928ab319bedfc00
+3	1363	6756508446829888	CMakeFiles/Service_2.dir/Sources/main.cpp.obj	42d8f1ce3ebf14b1
+1363	1738	6756508450560607	Service_2.exe	c928ab319bedfc00

@@ -2,21 +2,25 @@
 #include <pthread.h>
 #include <zmq.hpp>
 #include <fstream>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 
 
-void *requestSender( void *arg );
+void* requestSender( void *arg );
 void* requestReceiver(void* arg);
+
+void* ping_sender(void* arg);
+
+string* create_randnum();
 
 int main()
 {
+    //start sender tread
     pthread_t thread1;
-    pthread_t thread2;
-    pthread_create(&thread1, NULL, requestReceiver, NULL);
-    pthread_create(&thread2, NULL, requestSender, NULL);
+    pthread_create(&thread1, NULL, requestSender, NULL);
     pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
 
     cout << "Hello krokodil!" << endl;
     return 0;
@@ -35,11 +39,15 @@ void *requestSender(void *arg){
     {
         try {
             //get filename
-            std::string message_tosend;
-            std::cin >> message_tosend;
+            std::string filename;
+            std::cin >> filename;
+            if(filename == string("ping")){
+                pthread_create(NULL, NULL, &ping_sender, NULL);
+                continue;
+            }
             //open and read file
             ifstream fp;
-            fp.open(message_tosend, ifstream::binary);
+            fp.open(filename, ifstream::binary);
             if(fp.is_open()){
                     cout << "open" << endl;
                     // checks for length
@@ -52,22 +60,29 @@ void *requestSender(void *arg){
 
                     //add delim
                     string message = "bram>imageeditC>";
-                    message.append(message_tosend);
+
+                    string* id = create_randnum();
+                    message.append(*id);
+                    message.append(filename);
                     message.append(">");
                     //add data
                     for(int i = 0; i < length; i++){
                         message.push_back(buffer[i]);
                     }
+                    //starts receiver thread and sends subscribe string
+                    pthread_create(NULL, NULL, requestReceiver, (void*) (id));
                     //push
                     pusher.send(message.c_str(), message.length());
-                    std::cout << "Pushed : " << message_tosend << std::endl;
+                    std::cout << "Pushed : " << filename << "to server." << std::endl;
                     delete [] buffer;
+
             }
             else{
                 cout << "error, try again" << endl;
             }
         }
         catch(zmq::error_t& e) {
+            cout << "zmq error: ";
             std::cout << e.what() << std::endl;
         }
     }
@@ -79,16 +94,22 @@ void* requestReceiver(void* arg){
     zmq::context_t context(1);
     zmq::socket_t receiver( context, ZMQ_SUB);
 
+    //cout << * (string*) arg << endl;
+
     receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
     string topicName = "bram>imageeditS>";
+    topicName.append(*(string*) arg);
+    //cout << topicName << endl;
     receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
 
     zmq::message_t* datapayload = new zmq::message_t;
-    while(1){
+    for(int i = 0; i < 3; i++){
         receiver.recv(datapayload);
+        cout << "received something: " << endl;
         string limited = string((char*) datapayload->data(), datapayload->size());
         limited.erase(0, topicName.size());
         string filename = limited.substr(0, limited.find_first_of('>'));
+
 
         ofstream filerReceiveptr;
         filerReceiveptr.open(filename, ofstream::binary);
@@ -96,8 +117,45 @@ void* requestReceiver(void* arg){
             for(int i = limited.find_first_of('>') + 1; i < datapayload->size(); i++){
                 filerReceiveptr.put(limited[i]);
             }
-            cout << "writtend" << endl;
+            cout << "wrote file: " << filename << endl;
         }
     }
 }
 
+void* ping_sender(void* arg){
+    //connection setup
+    zmq::context_t context(1);
+    zmq::socket_t pusher( context, ZMQ_PUSH);
+    pusher.connect("tcp://benternet.pxl-ea-ict.be:24041");
+    string* id = create_randnum();
+    string payload = "bram>ping>";
+    payload.append(*id);
+    //cout << payload << endl;
+    pusher.send(payload.c_str(), payload.size());
+
+
+    zmq::socket_t receiver(context, ZMQ_SUB);
+    receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
+    string topicName = "bram>pong>";
+    topicName.append(*id);
+    receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
+    zmq::message_t* void_mess;
+    void_mess = new zmq::message_t;
+    receiver.recv(void_mess);
+    cout << "pong" << endl;
+    delete void_mess;
+}
+
+string* create_randnum(){
+    srand(time(NULL));
+    //creating char buffer to convert int to char
+    char conversionbuffer[6];
+    //clearing the buffer to prevent undefined behavior
+    memset(conversionbuffer, 'a', 5);
+    int number = 10000 + (rand()) % 89999;
+    itoa(number, conversionbuffer, 10);
+    /*conversionbuffer[0] = 'a';
+    cout << conversionbuffer << endl;*/
+    return(new string(conversionbuffer));
+
+}
