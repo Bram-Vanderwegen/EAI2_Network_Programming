@@ -1,0 +1,5 @@
+# ninja log v5
+18	950	6756528631492878	CMakeFiles/Service_2.dir/Sources/ping.cpp.obj	a1448944a1ea4f9
+0	1812	6756528640112994	CMakeFiles/Service_2.dir/Sources/main.cpp.obj	42d8f1ce3ebf14b1
+30	2150	6756528643485773	CMakeFiles/Service_2.dir/Sources/color_extractor_service.cpp.obj	67200d4239630013
+2150	2567	6756528647643960	Service_2.exe	c928ab319bedfc00
