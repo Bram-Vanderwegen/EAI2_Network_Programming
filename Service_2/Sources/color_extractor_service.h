@@ -17,6 +17,7 @@ public:
     static string topicName;
     //vector container
     static vector<string> toPush;
+    static vector<string> database;
     //mutex and condition
     static pthread_mutex_t pusher_mutex;
     static pthread_mutex_t insertion_mutex;
@@ -30,13 +31,16 @@ private:
     //file edit functions
     static int write_file(string limited, string* filename, int size);
     static int split_file(string filename);
+    static int create_md5(string* filename);
 
     //helper functions
     static void make_filenames();
+    static int check_DB(string string_name);
 
     //network funtions
     static void* receiveloop(void* arg);
     static void* send_loop(void* arg);
+
 };
 
 #endif // COLOR_EXTRACTOR_SERVICE_H

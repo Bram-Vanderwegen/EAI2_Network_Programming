@@ -16,6 +16,7 @@ pthread_mutex_t Color_extractor_service::pusher_mutex = PTHREAD_MUTEX_INITIALIZE
 pthread_mutex_t Color_extractor_service::insertion_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t Color_extractor_service::wake_pusher = PTHREAD_COND_INITIALIZER;
 vector<string> Color_extractor_service::toPush = vector<string>();
+vector<string> Color_extractor_service::database = vector<string>();
 
 void* color_extractor_function(void *arg);
 

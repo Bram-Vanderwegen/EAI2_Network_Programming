@@ -1,17 +1,9 @@
 # ninja log v5
-1	600	6756522785800317	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-602	829	6756522788076815	Client.exe	e0af01e54c83f56f
-3	584	6756522986013395	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-585	813	6756522988281299	Client.exe	e0af01e54c83f56f
-3	586	6756523814942299	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-586	813	6756523817195804	Client.exe	e0af01e54c83f56f
-3	570	6756535195530672	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-571	812	6756535197931078	Client.exe	e0af01e54c83f56f
-3	649	6756536405524973	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-649	893	6756536407928495	Client.exe	e0af01e54c83f56f
-3	562	6756537552679767	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-563	795	6756537554971712	Client.exe	e0af01e54c83f56f
-4	604	6756538241120608	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-604	840	6756538243450607	Client.exe	e0af01e54c83f56f
-3	599	6756538972858692	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
-599	843	6756538975266840	Client.exe	e0af01e54c83f56f
+3	640	6777638550589889	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
+640	916	6777638553327465	Client.exe	e0af01e54c83f56f
+3	674	6777642640471140	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
+675	949	6777642643221072	Client.exe	e0af01e54c83f56f
+4	674	6777661853047910	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
+674	968	6777661855961096	Client.exe	e0af01e54c83f56f
+4	675	6777666467119993	CMakeFiles/Client.dir/Sources/main.cpp.obj	ad0385430dc98e91
+675	935	6777666469702856	Client.exe	e0af01e54c83f56f

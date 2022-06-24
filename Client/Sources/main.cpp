@@ -34,14 +34,20 @@ void *requestSender(void *arg){
     //connection setup
     zmq::context_t context(1);
     zmq::socket_t pusher( context, ZMQ_PUSH);
+    zmq::socket_t com_rec(context, ZMQ_SUB);
     pusher.connect("tcp://benternet.pxl-ea-ict.be:24041");
+    com_rec.connect("tcp://benternet.pxl-ea-ict.be:24042");
     cout << "typ 'help' voor info" << endl;
     while(1)
     {
         try {
             //get filename
             std::string filename;
+            std::string MD5hash;
+            std::cout << "give filename" << endl;
             std::cin >> filename;
+            std::cout << "give hash" << endl;
+            std::cin >> MD5hash;
             if(filename == string("ping")){
                 pthread_create(NULL, NULL, &ping_sender, NULL);
                 continue;
@@ -50,10 +56,45 @@ void *requestSender(void *arg){
                 help_function(NULL);
                 continue;
             }
+
+
             //open and read file
             ifstream fp;
             fp.open(filename, ifstream::binary);
             if(fp.is_open()){
+                    string message = "bram>imageeditC>";
+
+                    //start com socket
+                    string topicName = "bram>imageeditS>r>";
+                    topicName.append(MD5hash);
+                    topicName.append(">");
+                    topicName.append(filename);
+                    topicName.append(">");
+                    topicName.append("upload");
+                    com_rec.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
+                    zmq::message_t* compayload = new zmq::message_t;
+                    cout << topicName << endl;
+
+                    //starts receiver thread and sends subscribe string
+                    pthread_create(NULL, NULL, requestReceiver, NULL);
+
+                    //send file proposition
+                    string request_message = message;
+                    request_message.append("r>");
+                    request_message.append(MD5hash);
+                    request_message.append(">");
+                    request_message.append(filename);
+                    cout << request_message << endl;
+
+                    pusher.send(request_message.c_str(), request_message.length());
+                    com_rec.recv(compayload);
+                    string com_string = string((char*) compayload->data(), compayload->size());
+                    com_string.erase(0, topicName.size() + 1);
+                    cout << com_string << endl;
+                    if(com_string == "nopls"){
+                        cout << "ait no prob" << endl;
+                        continue;
+                    }
                     cout << "open" << endl;
                     // checks for length
                     fp.seekg (0, fp.end);
@@ -64,18 +105,13 @@ void *requestSender(void *arg){
                     fp.read ((char*) &buffer[0] ,length);
 
                     //add delim
-                    string message = "bram>imageeditC>";
-
-                    string* id = create_randnum();
-                    message.append(*id);
                     message.append(filename);
                     message.append(">");
                     //add data
                     for(int i = 0; i < length; i++){
                         message.push_back(buffer[i]);
                     }
-                    //starts receiver thread and sends subscribe string
-                    pthread_create(NULL, NULL, requestReceiver, (void*) (id));
+
                     //push
                     pusher.send(message.c_str(), message.length());
                     std::cout << "Pushed : " << filename << " to server." << std::endl;
@@ -101,8 +137,7 @@ void* requestReceiver(void* arg){
     //cout << * (string*) arg << endl;
 
     receiver.connect("tcp://benternet.pxl-ea-ict.be:24042");
-    string topicName = "bram>imageeditS>";
-    topicName.append(*(string*) arg);
+    string topicName = "bram>imageeditS>f>";
     //cout << topicName << endl;
     receiver.setsockopt(ZMQ_SUBSCRIBE, topicName.c_str(), topicName.size());
 
